@@ -1,0 +1,88 @@
+.card {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid gray;
+  padding: 15px;
+  margin-top: 20px;
+  margin-right: 40px;
+  gap: 35px;
+}
+
+.book-img {
+  width: 25%;
+  height: 250px;
+}
+
+.card-para {
+  padding: 10psx;
+}
+
+.icons-cont {
+  display: flex;
+  gap: 15px;
+}
+
+.icons-bg {
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: #ffc75f;
+  box-shadow: 10px 10px 20px rgba(43, 28, 143, 0.1);
+  cursor: pointer;
+}
+
+.icon {
+  height: 24px;
+  width: 24px;
+}
+.button-icons-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.add-to-cart-btn {
+  background-color: #432818;
+  color: white;
+  height: 40px;
+  width: 160px;
+  border-radius: 20px;
+  border: none;
+  bottom: 5px;
+  cursor: pointer;
+}
+.star-cont {
+    display: flex;
+    gap: 5px;
+}
+.stars{
+    color: gold;
+    height: 24px;
+    width: 24px;
+}
+.card-text{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.card-text h3{
+    color: #457b9d;
+    font-weight: bold;
+
+}
+.card-text h3{
+    color:#1d3557;
+
+}
+.card-text p{
+    color: gray;
+}
+.remove-underline{
+    text-decoration: none;
+}

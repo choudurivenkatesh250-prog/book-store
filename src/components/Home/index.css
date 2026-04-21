@@ -1,0 +1,34 @@
+.home-bg{
+    height: 100%;
+ 
+}
+.banner{
+    height: 80%;
+       background-color:#d4a373;
+       padding-top: 50px;
+       padding-left: 20px;
+}
+.banner-text{
+    width: 50%;
+    color: #edede9;
+}
+
+.banner-text p{
+    font-size: 15px;
+    color:#324818;
+}
+.banner-text h1{
+    font-size: 100px;
+    padding-bottom: 20px;
+    color: #023e8a;
+}
+.banner-text button{
+    background-color: cornflowerblue;
+    color:wheat;
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 20px;
+    border-width: 0px;
+    width: 120px;
+    height: 40px;
+}

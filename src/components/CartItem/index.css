@@ -1,0 +1,58 @@
+.cart-item {
+    display: flex;
+    align-items: center;        /* vertical alignment */
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Image */
+.cart-img {
+    width: 70px;
+    height: 90px;
+    object-fit: cover;
+}
+
+/* Make all elements inline */
+.cart-title,
+.cart-price,
+.cart-total {
+    margin: 0;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+/* Quantity controls */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quantity-controls button {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.quantity-controls span {
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Delete button */
+.delete-btn {
+    font-size: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: gray;
+}
+
+.delete-btn:hover {
+    color: red;
+}

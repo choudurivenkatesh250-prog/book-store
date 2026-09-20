@@ -1,72 +1,7 @@
-import { useState } from "react"
-import { useNavigate } from "react-router"
-import Cookies from 'js-cookie'
-
-const LoginPage = () => {
-    const [username, setUsername] = useState("")
-    const [password, setPassWord] = useState("")
-    const [errorMsg, setErrorMsg] = useState("")
-    const [showErrorMsg, setShowErrorMsg]= useState(false)
-    const navigate = useNavigate()
-    const UsernameInput = (event) => {
-        setUsername(event.target.value)
-    }
-    const PasswordInput = (event) => {
-        setPassWord(event.target.value)
-    }
-    const renderUsername = () => (
-        <>
-        <label htmlFor="username">USERNAME</label>
-        <input type="text" value={username} onChange={UsernameInput} placeholder="enter your username"/>
-        </>
-        
-    )
-    const renderPassword = () => (
-        <>
-        <label htmlFor="Password">PASSWORD</label>
-        <input value={password} onChange={PasswordInput} type="password" placeholder="enter password"/>
-        </>
-
-    )
-    const Success = jwtToken => {
-        Cookies.set('jwt_token', jwtToken , {expires:1})
-        navigate('/',{replace:true})
-
-    }
-    const failure = errorMsg => {
-      setErrorMsg(errorMsg)
-      setShowErrorMsg(true)
-    }
-    const submitForm =  async event => {
-        event.preventDefault()
-        const userDetails = {username,password}
-        const jwtToken = Cookies.get('jwt_token')
-        const url = 'https://apis.ccbp.in/login'
-         const options = {
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + jwtToken
-            },
-            body: JSON.stringify(userDetails)
-         }
-         const response =  await fetch(url,options)
-         const data = await response.json()
-         if(response.ok===true){
-            Success(data.jwt_token)
-         }else{
-            failure(data.error_msg)
-         }
-    }
-    return (
-       <>
-       <form onSubmit={submitForm}>
-        <div>{renderUsername()}</div>
-       <div>{renderPassword()}</div>
-       <button>Submit</button>
-       {showErrorMsg && <p>{errorMsg}</p>}
-       </form>
-       </>
-    )
-}
-export default LoginPage
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import Cookies from "js-cookie";
+import Header from "../Header";
+import "./index.css";
+const LoginPage = () => { const [username,setUsername] = useState(""); const [password,setPassword] = useState(""); const [error,setError] = useState(""); const [loading,setLoading] = useState(false); const navigate = useNavigate(); const submit = async (event) => { event.preventDefault(); if (!username.trim() || !password) return setError("Enter both your username and password."); setLoading(true); setError(""); try { const response = await fetch("https://apis.ccbp.in/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,password})}); const data = await response.json(); if (!response.ok) throw new Error(data.error_msg || "Sign in failed. Try again."); Cookies.set("jwt_token",data.jwt_token,{expires:1}); navigate("/",{replace:true}); } catch (err) { setError(err.message); } finally { setLoading(false); } }; return <><Header /><main className="login-page"><form className="login-card" onSubmit={submit}><p className="eyebrow">Welcome back</p><h1>Sign in to Bookle</h1><p>Authentication uses the existing demo service.</p><label htmlFor="username">Username</label><input id="username" value={username} onChange={(e)=>setUsername(e.target.value)} autoComplete="username" /><label htmlFor="password">Password</label><input id="password" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} autoComplete="current-password" />{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button" disabled={loading}>{loading ? "Signing in…" : "Sign in"}</button><Link to="/books" className="text-button">Continue browsing instead</Link></form></main></>};
+export default LoginPage;

@@ -1,55 +1,6 @@
-import './index.css'
-import CartContext from '../../context/CartContext'
-import { useContext } from 'react'
-
-const CartItem = ({ details }) => {
-    const { coverImage, Title, price, Id, quantity = 1 } = details
-
-    const { deleteCartItem, increaseItem, decreaseItem } = useContext(CartContext)
-
-    const onClickDelete = () => deleteCartItem(Id)
-    const onIncrease = () => increaseItem(Id)
-    const onDecrease = () => decreaseItem(Id)
-
-    const totalPrice = price * quantity
-
-    return (
-        <li className="cart-item">
-            <img src={coverImage} alt={Title} className="cart-img" />
-
-            <h3 className="cart-title">{Title}</h3>
-
-            <p className="cart-price">${price}</p>
-
-            <div className="quantity-controls">
-                <button 
-                    onClick={onDecrease} 
-                    disabled={quantity === 1}
-                    className="qty-btn"
-                >
-                    -
-                </button>
-
-                <span className="qty-value">{quantity}</span>
-
-                <button 
-                    onClick={onIncrease}
-                    className="qty-btn"
-                >
-                    +
-                </button>
-            </div>
-
-            <p className="cart-total">${totalPrice}</p>
-
-            <button 
-                onClick={onClickDelete} 
-                className="delete-btn"
-            >
-                ✕
-            </button>
-        </li>
-    )
-}
-
-export default CartItem
+import "./index.css";
+import CartContext from "../../context/CartContext";
+import { useContext } from "react";
+import { FiMinus, FiPlus, FiTrash2 } from "react-icons/fi";
+const CartItem = ({ details }) => { const { coverImage, Title, Author, price, Id, quantity = 1 } = details; const { deleteCartItem, increaseItem, decreaseItem } = useContext(CartContext); return <li className="cart-item"><img src={coverImage} alt={`Cover of ${Title}`} className="cart-img" /><div className="cart-book-info"><h3>{Title}</h3><p>{Author || "Featured author"}</p><strong>${Number(price || 0).toFixed(2)}</strong></div><div className="quantity-controls" aria-label={`Quantity for ${Title}`}><button onClick={() => decreaseItem(Id)} disabled={quantity === 1} aria-label="Decrease quantity"><FiMinus /></button><span>{quantity}</span><button onClick={() => increaseItem(Id)} aria-label="Increase quantity"><FiPlus /></button></div><strong className="cart-total">${(Number(price || 0) * quantity).toFixed(2)}</strong><button onClick={() => deleteCartItem(Id)} className="delete-btn" aria-label={`Remove ${Title}`}><FiTrash2 /></button></li>; };
+export default CartItem;

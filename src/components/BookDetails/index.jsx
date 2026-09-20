@@ -1,83 +1,10 @@
 import Header from "../Header";
 import "./index.css";
-
+import { FiArrowLeft, FiHeart, FiShoppingBag } from "react-icons/fi";
 import { FaStar } from "react-icons/fa";
-import { FaRegStarHalfStroke } from "react-icons/fa6";
-import { MdOutlineFavoriteBorder, MdOutlineShuffle } from "react-icons/md";
-
-import { useState, useEffect } from "react";
-import { useParams } from "react-router";
-
-const BookDetails = () => {
-  const [bookDetails, setBookDetails] = useState([]);
-  const { id } = useParams();
-
-  useEffect(() => {
-    const getBookDetails = async () => {
-      try {
-        const url = "https://www.jsonkeeper.com/b/SQID2";
-        const response = await fetch(url);
-        const data = await response.json();
-
-        const actualBook = data.filter(
-          (eachobj) => eachobj.Id === Number(id)
-        );
-
-        setBookDetails(actualBook[0]);
-      } catch (error) {
-        console.log("Error fetching book:", error);
-      }
-    };
-
-    getBookDetails();
-  }, [id]);
-
-  const { Title, coverImage, description, price } = bookDetails;
-
-  return (
-    <>
-      <Header />
-
-      <main className="bd-main-cont">
-     
-        <section className="bd-img-container">
-          <img src={coverImage} alt={Title} />
-        </section>
-
-       
-        <section className="bd-text-container">
-          <h1>{Title}</h1>
-
-          
-          <div>
-            <FaStar className="star" />
-            <FaStar className="star" />
-            <FaStar className="star" />
-            <FaStar className="star" />
-            <FaRegStarHalfStroke className="star" />
-          </div>
-
-          <p>{description}</p>
-
-          <h2>${price}</h2>
-
-          <div className="btn-container">
-            <button className="add-to-cart-btn">Add to Cart</button>
-
-            <span className="icons-cont">
-              <span className="icons-bg">
-                <MdOutlineFavoriteBorder className="icon" />
-              </span>
-
-              <span className="icons-bg">
-                <MdOutlineShuffle className="icon" />
-              </span>
-            </span>
-          </div>
-        </section>
-      </main>
-    </>
-  );
+import { useState, useEffect, useContext } from "react";
+import { Link, useParams } from "react-router";
+import CartContext from "../../context/CartContext";
+const BookDetails = () => { const [book, setBook] = useState(null); const [status, setStatus] = useState("loading"); const { id } = useParams(); const { addCartItem, toggleWishlist, wishlist } = useContext(CartContext); useEffect(() => { const load = async () => { setStatus("loading"); try { const response = await fetch("https://www.jsonkeeper.com/b/SQID2"); if (!response.ok) throw new Error(); const found = (await response.json()).find((item) => item.Id === Number(id)); if (!found) throw new Error(); setBook(found); setStatus("success"); } catch { setStatus("error"); } }; load(); }, [id]); if (status === "loading") return <><Header /><main className="loading-state detail-loading"><span className="loader" /> Opening your book…</main></>; if (status === "error") return <><Header /><main className="empty-state"><h2>That book is unavailable.</h2><Link to="/books" className="primary-button">Back to collection</Link></main></>; const saved = wishlist.some((item) => item.Id === book.Id); return <><Header /><main className="detail-page"><Link to="/books" className="back-link"><FiArrowLeft /> Back to collection</Link><article className="book-detail"><div className="detail-cover"><img src={book.coverImage} alt={`Cover of ${book.Title}`} /></div><div className="detail-copy"><p className="eyebrow">Featured title</p><h1>{book.Title}</h1><p className="detail-author">by {book.Author || "Featured author"}</p><div className="rating"><FaStar /> <span>{book.rating || "4.5"}</span><span className="rating-note">Loved by readers</span></div><p className="detail-description">{book.description || "An unforgettable addition to your reading list."}</p><div className="detail-price">${Number(book.price || 0).toFixed(2)}</div><p className="availability">In stock · Ready to add to your library</p><div className="detail-actions"><button className="primary-button" onClick={() => addCartItem(book)}><FiShoppingBag /> Add to bag</button><button className={`secondary-icon ${saved ? "saved" : ""}`} onClick={() => toggleWishlist(book)} aria-label="Save to wishlist"><FiHeart /></button></div></div></article></main></>;
 };
-
 export default BookDetails;

@@ -1,65 +1,7 @@
-import BookItem from '../BookItem'
-import Header from '../Header'
-import { useState, useEffect, use } from 'react'
-import { BallTriangle } from 'react-loader-spinner'
-import './index.css'
-import { IoSearch } from "react-icons/io5";
-
-
-const BookList = () => {
-   const [bookList, setBookList] = useState([]);
-   const [isloading, setIsLoading] = useState(true)
-   const [searchInput,setSearchInput]= useState("")
-
-   useEffect(() => {
-      const getBookList = async () => {
-         const apiUrl = "https://www.jsonkeeper.com/b/SQID2"
-         const response = await fetch(apiUrl)
-         const fetchedData = await response.json()
-         console.log(fetchedData)
-         setBookList(fetchedData)
-         setIsLoading(false)
-      }
-      getBookList()
-   }, [])
-   const onChangeSearchInput = (event) => {
-      setSearchInput(event.target.value)
-   }
-   const filteredBooks = bookList.filter((eachObj)=>
-      eachObj.Title.toLowerCase().includes(searchInput.toLowerCase())
-   )
-   const renderLoadingView = () => {
-      return (
-         <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100vh",
-         }}>
-            <BallTriangle/>
-            <h1>Loading</h1>
-         </div>
-      )
-   }
-   const renderBookList = () => {
-      return (
-         <ul>
-            {filteredBooks.map((each) => (
-               <BookItem bookObj={each} key={each.Id} />
-            ))}
-         </ul>
-      )
-   }
-   return (
-      <div>
-         <Header />
-         <div className='search-input-cont'>
-       
-         <input type='search' placeholder='Search Book...' onChange={onChangeSearchInput} value={searchInput}/>
-            <button><IoSearch /></button>
-         </div>
-         {isloading ? renderLoadingView() : renderBookList()}
-      </div>
-   )
-}
-export default BookList
+import BookItem from "../BookItem";
+import Header from "../Header";
+import { useState, useEffect } from "react";
+import { FiSearch, FiSliders, FiX } from "react-icons/fi";
+import "./index.css";
+const BookList = () => { const [bookList, setBookList] = useState([]); const [status, setStatus] = useState("loading"); const [search, setSearch] = useState(""); const [sort, setSort] = useState("featured"); const fetchBooks = async () => { setStatus("loading"); try { const response = await fetch("https://www.jsonkeeper.com/b/SQID2"); if (!response.ok) throw new Error("Catalog unavailable"); setBookList(await response.json()); setStatus("success"); } catch { setStatus("error"); } }; useEffect(() => { fetchBooks(); }, []); const books = bookList.filter((book) => `${book.Title} ${book.Author || ""}`.toLowerCase().includes(search.toLowerCase())).sort((a,b) => sort === "price-low" ? Number(a.price)-Number(b.price) : sort === "price-high" ? Number(b.price)-Number(a.price) : sort === "title" ? a.Title.localeCompare(b.Title) : 0); return <div><Header /><main className="catalog-page"><div className="catalog-heading"><p className="eyebrow">The bookshelf</p><h1>Discover your next favorite.</h1><p>Explore our current collection, then make it yours.</p></div><div className="discovery-bar"><label className="search-field"><FiSearch /><input type="search" placeholder="Search by title or author" value={search} onChange={(e) => setSearch(e.target.value)} /></label><label className="sort-field"><FiSliders /><span className="sr-only">Sort books</span><select value={sort} onChange={(e) => setSort(e.target.value)}><option value="featured">Featured</option><option value="title">Title: A–Z</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option></select></label>{search && <button className="clear-search" onClick={() => setSearch("")}><FiX /> Clear</button>}</div>{status === "loading" && <div className="loading-state"><span className="loader" /> Loading the library…</div>}{status === "error" && <div className="empty-state"><h2>We couldn’t load the collection.</h2><p>Please check your connection and try again.</p><button className="primary-button" onClick={fetchBooks}>Try again</button></div>}{status === "success" && <><p className="results-count">{books.length} {books.length === 1 ? "book" : "books"} found</p>{books.length ? <ul className="book-grid">{books.map((book) => <BookItem bookObj={book} key={book.Id} />)}</ul> : <div className="empty-state"><h2>No books matched that search.</h2><p>Try another title, author, or clear the search.</p><button className="text-button" onClick={() => setSearch("")}>Clear search</button></div>}</>}</main></div>; };
+export default BookList;

@@ -1,24 +1,6 @@
-import Header from "../Header"
-import './index.css'
-import { useNavigate } from "react-router"
-const Home = () => {
- let navigate = useNavigate()
- const onClickNavigate =()=>{
-    navigate("/books")
- }
-    return (
-        <div className="home-bg">
-            <Header />
-            <div className="banner">
-                <div className="banner-text">
-                    <h1>Expand Your Mind. <br />
-                    Read a book </h1>
-                    <p>My Book Application is a user-friendly platform designed to help users explore, read, and manage their favorite books efficiently. The application provides a wide collection of books across different genres, allowing users to search, filter, and select books based on their interests. It features a clean and responsive interface, making navigation smooth and engaging. Users can also save their favorite books, view detailed descriptions, and keep track of their reading progress. Built using modern technologies, the application ensures a seamless and interactive experience for all book lovers. </p>
-                    <button onClick={onClickNavigate}>Explore More</button>
-
-                </div>
-            </div>
-        </div>
-    )
-}
-export default Home
+import Header from "../Header";
+import "./index.css";
+import { Link } from "react-router";
+import { FiArrowRight, FiBookOpen, FiHeart, FiTruck } from "react-icons/fi";
+const Home = () => <div><Header /><main><section className="hero"><div className="hero-copy"><p className="eyebrow">A better way to find your next read</p><h1>Stories that stay with you.</h1><p className="hero-text">Browse an inspiring, handpicked collection of books for every kind of curious reader.</p><div className="hero-actions"><Link to="/books" className="primary-button">Explore the collection <FiArrowRight /></Link><a href="#why-bookle" className="text-button">Why Bookle?</a></div><div className="reader-stats"><span><b>10k+</b> readers</span><span><b>Curated</b> titles</span><span><b>Easy</b> checkout</span></div></div><div className="hero-art" aria-hidden="true"><div className="hero-book book-one">READ</div><div className="hero-book book-two">BOOKLE</div><div className="hero-sun" /></div></section><section id="why-bookle" className="value-section"><p className="eyebrow">Made for book lovers</p><h2>Find more than a book.</h2><div className="value-grid"><article><FiBookOpen /><h3>Thoughtfully selected</h3><p>Discover titles worth making room for on your shelf.</p></article><article><FiHeart /><h3>Save your favorites</h3><p>Keep a personal reading list ready for later.</p></article><article><FiTruck /><h3>Simple shopping</h3><p>Build your cart and pick up where you left off.</p></article></div></section></main></div>;
+export default Home;

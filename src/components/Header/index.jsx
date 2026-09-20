@@ -1,36 +1,7 @@
-import './index.css'
-import {Link} from 'react-router'
-import { FaCartArrowDown } from "react-icons/fa";
-import { IoHeartOutline } from "react-icons/io5";
-
-import Logo from '../../assets/logo.png'
-
-const Header  = () => {
-
-    return(
-        <>
-        <header>
-            <nav>
-            <div className='logo-container'>
-                <img src={Logo} />
-           <p>Bookle</p>
-            </div>
-            <ul className='nav-links'>
-                <li><Link to="/" className='nav-link'>Home</Link></li>
-                <li><Link to="/books" className='nav-link'>Shop</Link></li>
-                <li><Link to="/cart" className='nav-link'>Cart</Link></li>
-            </ul>
-            <div className='icons-container'>
-                <div className='icon-bg'>
-                <FaCartArrowDown />
-                </div>
-                <div className='icon-bg'>
-                <IoHeartOutline />
-                </div>
-            </div>
-            </nav>
-        </header>
-        </>
-    )
-}
-export default Header
+import "./index.css";
+import { Link, NavLink } from "react-router";
+import { useContext, useState } from "react";
+import { FiBookOpen, FiHeart, FiMenu, FiShoppingBag, FiUser, FiX } from "react-icons/fi";
+import CartContext from "../../context/CartContext";
+const Header = () => { const [open, setOpen] = useState(false); const { cartList, wishlist } = useContext(CartContext); const count = cartList.reduce((sum, item) => sum + item.quantity, 0); return <header className="site-header"><nav className="site-nav" aria-label="Main navigation"><Link className="brand" to="/"><span className="brand-mark"><FiBookOpen /></span><span>Bookle</span></Link><button className="menu-button" onClick={() => setOpen(!open)} aria-label="Toggle navigation" aria-expanded={open}>{open ? <FiX /> : <FiMenu />}</button><div className={`nav-content ${open ? "is-open" : ""}`}><div className="nav-links"><NavLink end to="/" onClick={() => setOpen(false)}>Home</NavLink><NavLink to="/books" onClick={() => setOpen(false)}>Discover</NavLink></div><div className="nav-actions"><Link className="nav-icon" to="/cart" aria-label={`Cart, ${count} items`}><FiShoppingBag />{count > 0 && <b>{count}</b>}</Link><span className="nav-icon muted" title={`${wishlist.length} saved books`}><FiHeart /></span><Link className="nav-icon" to="/login" aria-label="Account"><FiUser /></Link></div></div></nav></header>; };
+export default Header;

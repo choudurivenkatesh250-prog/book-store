@@ -1,6 +1,6 @@
 .cart-item {
     display: flex;
-    align-items: center;        /* vertical alignment */
+    align-items: center;      
     justify-content: space-between;
     gap: 20px;
     padding: 12px 20px;
@@ -8,14 +8,14 @@
     border-radius: 8px;
 }
 
-/* Image */
+
 .cart-img {
     width: 70px;
     height: 90px;
     object-fit: cover;
 }
 
-/* Make all elements inline */
+
 .cart-title,
 .cart-price,
 .cart-total {
@@ -24,7 +24,6 @@
     white-space: nowrap;
 }
 
-/* Quantity controls */
 .quantity-controls {
     display: flex;
     align-items: center;
@@ -44,7 +43,6 @@
     text-align: center;
 }
 
-/* Delete button */
 .delete-btn {
     font-size: 20px;
     border: none;

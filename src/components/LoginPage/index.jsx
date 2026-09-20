@@ -61,7 +61,7 @@ const LoginPage = () => {
     return (
        <>
        <form onSubmit={submitForm}>
-         <div>{renderUsername()}</div>
+        <div>{renderUsername()}</div>
        <div>{renderPassword()}</div>
        <button>Submit</button>
        {showErrorMsg && <p>{errorMsg}</p>}

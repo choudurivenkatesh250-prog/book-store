@@ -9,7 +9,7 @@ import CartContext from "./context/CartContext";
 function App() {
   const [cartList, setCartList] = useState([]);
 
-  // ✅ Add item (with quantity logic)
+ 
   const addCartItem = (product) => {
     setCartList((prev) => {
       const existing = prev.find(item => item.Id === product.Id);
@@ -26,12 +26,12 @@ function App() {
     });
   };
 
-  // ✅ Delete
+  
   const deleteCartItem = (id) => {
     setCartList(prev => prev.filter(item => item.Id !== id));
   };
 
-  // ✅ Increase
+
   const increaseItem = (id) => {
     setCartList(prev =>
       prev.map(item =>
@@ -42,7 +42,7 @@ function App() {
     );
   };
 
-  // ✅ Decrease
+
   const decreaseItem = (id) => {
     setCartList(prev =>
       prev.map(item =>
